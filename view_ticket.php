@@ -193,7 +193,7 @@ include 'includes/header.php';
                     <?php endif; ?>
                     
                     <!-- Add Comment Form -->
-                    <form method="POST" class="mt-4">
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . urlencode($ticket['ticket_id']); ?>" class="mt-4">
                         <div class="mb-3">
                             <label for="comment" class="form-label">Add Comment</label>
                             <textarea class="form-control" id="comment" name="comment" rows="3" 
@@ -216,7 +216,7 @@ include 'includes/header.php';
                     <h6 class="mb-0">Update Status</h6>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . urlencode($ticket['ticket_id']); ?>">
                         <div class="mb-3">
                             <select class="form-select" name="status">
                                 <option value="Open" <?php echo $ticket['status'] == 'Open' ? 'selected' : ''; ?>>Open</option>
@@ -239,7 +239,7 @@ include 'includes/header.php';
                     <h6 class="mb-0">Assignment</h6>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . urlencode($ticket['ticket_id']); ?>">
                         <div class="mb-3">
                             <select class="form-select" name="assign_to">
                                 <option value="">Unassigned</option>

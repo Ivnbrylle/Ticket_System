@@ -93,61 +93,61 @@ include 'includes/header.php';
                 <div class="card-header">
                     <h5 class="mb-0">Add New Employee</h5>
                 </div>
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="card-body">
+                            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Specializations <span class="text-danger">*</span></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Feature Request" id="spec1">
+                                        <label class="form-check-label" for="spec1">Feature Request</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Sales" id="spec2">
+                                        <label class="form-check-label" for="spec2">Sales</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Usage Guide" id="spec3">
+                                        <label class="form-check-label" for="spec3">Usage Guide</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Bugs and Technical Issues" id="spec4">
+                                        <label class="form-check-label" for="spec4">Bugs and Technical Issues</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="General" id="spec5">
+                                        <label class="form-check-label" for="spec5">General</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                                        <label class="form-check-label" for="is_admin">
+                                            Administrator
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" name="add_employee" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Add Employee
+                                </button>
+                            </form>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Specializations <span class="text-danger">*</span></label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Feature Request" id="spec1">
-                                <label class="form-check-label" for="spec1">Feature Request</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Sales" id="spec2">
-                                <label class="form-check-label" for="spec2">Sales</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Usage Guide" id="spec3">
-                                <label class="form-check-label" for="spec3">Usage Guide</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Bugs and Technical Issues" id="spec4">
-                                <label class="form-check-label" for="spec4">Bugs and Technical Issues</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="specialization[]" value="General" id="spec5">
-                                <label class="form-check-label" for="spec5">General</label>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
-                                <label class="form-check-label" for="is_admin">
-                                    Administrator
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" name="add_employee" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Add Employee
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
 
@@ -197,7 +197,7 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <?php if ($employee['employee_id'] != $_SESSION['employee_id']): ?>
-                                            <form method="POST" style="display: inline;" 
+                                            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display: inline;" 
                                                   onsubmit="return confirm('Are you sure you want to delete this employee? Their assigned tickets will become unassigned.')">
                                                 <input type="hidden" name="employee_id" value="<?php echo $employee['employee_id']; ?>">
                                                 <button type="submit" name="delete_employee" class="btn btn-sm btn-outline-danger">

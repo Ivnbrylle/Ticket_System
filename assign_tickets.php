@@ -139,7 +139,7 @@ include 'includes/header.php';
                 </div>
                 <div class="card-body">
                     <?php if ($unassigned_count > 0): ?>
-                        <form method="POST">
+                        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                             <p>There are <strong><?php echo $unassigned_count; ?></strong> unassigned open tickets ready for automatic assignment.</p>
                             <button type="submit" name="assign_tickets" class="btn btn-primary btn-lg">
                                 <i class="fas fa-tasks me-2"></i>Auto Assign All Tickets
@@ -166,7 +166,7 @@ include 'includes/header.php';
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Ticket ID</th>
@@ -178,8 +178,8 @@ include 'includes/header.php';
                                 <?php foreach ($_SESSION['assignment_log'] as $assignment): ?>
                                 <tr>
                                     <td>
-                                        <a href="view_ticket.php?id=<?php echo urlencode($assignment['ticket_id']); ?>" class="ticket-id">
-                                            <?php echo htmlspecialchars($assignment['ticket_id']); ?>
+                                        <a href="view_ticket.php?id=<?php echo urlencode($assignment['ticket_id']); ?>" class="text-decoration-none">
+                                            <span class="ticket-id"><?php echo htmlspecialchars($assignment['ticket_id']); ?></span>
                                         </a>
                                     </td>
                                     <td>
@@ -238,11 +238,17 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <?php if ($employee['current_workload'] == 0): ?>
-                                            <span class="text-success">Available</span>
+                                            <span class="text-success">
+                                                <i class="fas fa-check-circle me-1"></i>Available
+                                            </span>
                                         <?php elseif ($employee['current_workload'] <= 2): ?>
-                                            <span class="text-warning">Moderate Load</span>
+                                            <span class="text-warning">
+                                                <i class="fas fa-clock me-1"></i>Moderate Load
+                                            </span>
                                         <?php else: ?>
-                                            <span class="text-danger">High Load</span>
+                                            <span class="text-danger">
+                                                <i class="fas fa-exclamation-triangle me-1"></i>High Load
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
