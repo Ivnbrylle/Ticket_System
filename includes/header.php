@@ -28,6 +28,18 @@
             font-size: 14px;
         }
 
+        /* Apply Inter font to all elements except icons */
+        *, *::before, *::after {
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        /* Preserve FontAwesome icons */
+        .fa, .fas, .far, .fal, .fab, 
+        [class*="fa-"]::before, 
+        .fa::before, .fas::before, .far::before, .fal::before, .fab::before {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands" !important;
+        }
+
         .sidebar {
             background: linear-gradient(180deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
             border-right: 1px solid var(--border-light);
@@ -252,14 +264,14 @@
             padding: 18px;
             box-shadow: 0 4px 20px var(--shadow-subtle);
             border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
+            transition: none;
             position: relative;
             overflow: hidden;
         }
 
         .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px var(--shadow-medium);
+            transform: none;
+            box-shadow: 0 4px 20px var(--shadow-subtle);
         }
 
         .stats-card.card-gold {
@@ -442,8 +454,9 @@
         }
 
         .priority-badge.priority-high {
-            background: #ffeaa7;
-            color: #d68910;
+            background: #ffcdd2;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
         }
 
         .priority-badge.priority-critical {
@@ -772,7 +785,134 @@
             font-size: 9px;
             padding: 2px 8px;
         }
+
+        /* Integrated table filters */
+        .table-filters {
+            background: linear-gradient(135deg, var(--primary-cream) 0%, var(--secondary-cream) 100%);
+            border-bottom: 1px solid var(--border-light) !important;
+        }
+
+        .table-filters .form-label {
+            font-size: 12px;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .table-filters .form-select-sm,
+        .table-filters .form-control-sm {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .table-filters .btn-sm {
+            font-size: 11px;
+            padding: 4px 12px;
+        }
+
+        /* Auto-filter styling */
+        .table-filters input, .table-filters select {
+            transition: border-color 0.2s ease;
+        }
+
+        .table-filters input:focus, .table-filters select:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .no-results-row {
+            background-color: var(--primary-cream);
+        }
     </style>
+    
+    <script>
+        // Auto-filter functionality
+        function initAutoFilter() {
+            const statusFilter = document.getElementById('status');
+            const topicFilter = document.getElementById('topic');
+            const searchInput = document.getElementById('search');
+            const tableBody = document.querySelector('.table tbody');
+            const tableRows = tableBody ? Array.from(tableBody.querySelectorAll('tr:not(.no-results-row)')) : [];
+            
+            if (!tableBody || tableRows.length === 0) return;
+            
+            function filterTable() {
+                const statusValue = statusFilter ? statusFilter.value.toLowerCase() : '';
+                const topicValue = topicFilter ? topicFilter.value.toLowerCase() : '';
+                const searchValue = searchInput ? searchInput.value.toLowerCase() : '';
+                
+                let visibleCount = 0;
+                
+                tableRows.forEach(row => {
+                    const statusCell = row.querySelector('td:nth-child(5)'); // Status column
+                    const topicCell = row.querySelector('td:nth-child(3)'); // Topic column
+                    const nameCell = row.querySelector('td:nth-child(2)'); // Name column
+                    const idCell = row.querySelector('td:nth-child(1)'); // ID column
+                    
+                    const statusText = statusCell ? statusCell.textContent.toLowerCase() : '';
+                    const topicText = topicCell ? topicCell.textContent.toLowerCase() : '';
+                    const nameText = nameCell ? nameCell.textContent.toLowerCase() : '';
+                    const idText = idCell ? idCell.textContent.toLowerCase() : '';
+                    
+                    const statusMatch = !statusValue || statusText.includes(statusValue);
+                    const topicMatch = !topicValue || topicText.includes(topicValue);
+                    const searchMatch = !searchValue || 
+                        nameText.includes(searchValue) || 
+                        idText.includes(searchValue) ||
+                        topicText.includes(searchValue) ||
+                        statusText.includes(searchValue);
+                    
+                    if (statusMatch && topicMatch && searchMatch) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Update count and show/hide no results message
+                updateResultsCount(visibleCount);
+                showNoResultsMessage(visibleCount === 0);
+            }
+            
+            function updateResultsCount(count) {
+                const countElement = document.querySelector('.results-count');
+                if (countElement) {
+                    countElement.textContent = count + (count === 1 ? ' ticket found' : ' tickets found');
+                }
+            }
+            
+            function showNoResultsMessage(show) {
+                let noResultsRow = tableBody.querySelector('.no-results-row');
+                
+                if (show) {
+                    if (!noResultsRow) {
+                        noResultsRow = document.createElement('tr');
+                        noResultsRow.className = 'no-results-row';
+                        noResultsRow.innerHTML = '<td colspan="9" class="text-center text-muted py-4"><i class="fas fa-search me-2"></i>No tickets match your filters</td>';
+                        tableBody.appendChild(noResultsRow);
+                    }
+                    noResultsRow.style.display = '';
+                } else if (noResultsRow) {
+                    noResultsRow.style.display = 'none';
+                }
+            }
+            
+            // Add event listeners
+            if (statusFilter) statusFilter.addEventListener('change', filterTable);
+            if (topicFilter) topicFilter.addEventListener('change', filterTable);
+            if (searchInput) searchInput.addEventListener('input', filterTable);
+            
+            // Clear filters function
+            window.clearFilters = function() {
+                if (statusFilter) statusFilter.value = '';
+                if (topicFilter) topicFilter.value = '';
+                if (searchInput) searchInput.value = '';
+                filterTable();
+            };
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initAutoFilter);
+    </script>
 </head>
 <body class="<?php echo (isset($page_title) && $page_title === 'Dashboard') ? 'dashboard-page' : ''; ?>">
     <?php if (isLoggedIn()): ?>

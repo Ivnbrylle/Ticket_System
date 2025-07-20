@@ -4,35 +4,7 @@ requireLogin();
 
 $page_title = 'All Tickets';
 
-// Get filter parameters
-$status_filter = isset($_GET['status']) ? sanitize($_GET['status']) : '';
-$topic_filter = isset($_GET['topic']) ? sanitize($_GET['topic']) : '';
-$search = isset($_GET['search']) ? sanitize($_GET['search']) : '';
-
-// Build query
-$where_conditions = [];
-$params = [];
-
-if (!empty($status_filter)) {
-    $where_conditions[] = "t.status = ?";
-    $params[] = $status_filter;
-}
-
-if (!empty($topic_filter)) {
-    $where_conditions[] = "t.topic = ?";
-    $params[] = $topic_filter;
-}
-
-if (!empty($search)) {
-    $where_conditions[] = "(t.ticket_id LIKE ? OR t.name LIKE ? OR t.description LIKE ?)";
-    $search_param = "%$search%";
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $params[] = $search_param;
-}
-
-$where_clause = !empty($where_conditions) ? 'WHERE ' . implode(' AND ', $where_conditions) : '';
-
+// Get all tickets (no server-side filtering)
 $stmt = $pdo->prepare("
     SELECT 
         t.*,
@@ -41,87 +13,23 @@ $stmt = $pdo->prepare("
     FROM tickets t
     LEFT JOIN employees e ON t.assigned_to = e.employee_id
     LEFT JOIN employees creator ON t.created_by = creator.employee_id
-    $where_clause
     ORDER BY t.created_at DESC
 ");
 
-$stmt->execute($params);
+$stmt->execute();
 $tickets = $stmt->fetchAll();
 
 include 'includes/header.php';
 ?>
 
-<div class="container-fluid px-3">
-    <!-- Filters -->
-    <div class="mb-3">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0">Filter Tickets</h6>
-            </div>
-            <div class="card-body py-3">
-                <form method="GET" class="row g-2">
-                    <div class="col-md-2">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select form-select-sm" id="status" name="status">
-                            <option value="">All Statuses</option>
-                            <option value="Open" <?php echo $status_filter == 'Open' ? 'selected' : ''; ?>>Open</option>
-                            <option value="In Progress" <?php echo $status_filter == 'In Progress' ? 'selected' : ''; ?>>In Progress</option>
-                            <option value="Closed" <?php echo $status_filter == 'Closed' ? 'selected' : ''; ?>>Closed</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="topic" class="form-label">Topic</label>
-                        <select class="form-select form-select-sm" id="topic" name="topic">
-                            <option value="">All Topics</option>
-                            <option value="Feature Request" <?php echo $topic_filter == 'Feature Request' ? 'selected' : ''; ?>>Feature Request</option>
-                            <option value="Sales" <?php echo $topic_filter == 'Sales' ? 'selected' : ''; ?>>Sales</option>
-                            <option value="Usage Guide" <?php echo $topic_filter == 'Usage Guide' ? 'selected' : ''; ?>>Usage Guide</option>
-                            <option value="Bugs and Technical Issues" <?php echo $topic_filter == 'Bugs and Technical Issues' ? 'selected' : ''; ?>>Bugs and Technical Issues</option>
-                            <option value="General" <?php echo $topic_filter == 'General' ? 'selected' : ''; ?>>General</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="search" class="form-label">Search</label>
-                        <input type="text" class="form-control form-control-sm" id="search" name="search" 
-                               value="<?php echo htmlspecialchars($search); ?>" 
-                               placeholder="Ticket ID, title, or description...">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-grid">
-                            <a href="create_ticket.php" class="btn btn-success btn-sm">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </form>
-                <?php if (!empty($status_filter) || !empty($topic_filter) || !empty($search)): ?>
-                    <div class="mt-2">
-                        <a href="tickets.php" class="btn btn-sm btn-outline-secondary">Clear Filters</a>
-                        <span class="ms-2 text-muted small"><?php echo count($tickets); ?> tickets found</span>
-                    </div>
-                <?php else: ?>
-                    <div class="mt-2">
-                        <span class="text-muted small"><?php echo count($tickets); ?> total tickets</span>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tickets Table -->
+<div class="container-fluid px-3 mb-4">
+    <!-- Tickets Table with Integrated Auto-Filters -->
     <?php if (empty($tickets)): ?>
         <div class="card">
             <div class="card-body text-center py-4">
                 <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
                 <h6 class="text-muted">No tickets found</h6>
-                <p class="text-muted small">Try adjusting your filters or create a new ticket.</p>
+                <p class="text-muted small">Create your first ticket to get started.</p>
                 <a href="create_ticket.php" class="btn btn-primary mt-2">
                     <i class="fas fa-plus me-1"></i>Create New Ticket
                 </a>
@@ -129,6 +37,53 @@ include 'includes/header.php';
         </div>
     <?php else: ?>
         <div class="table-responsive">
+            <!-- Auto-Filter Controls -->
+            <div class="table-filters p-3 border-bottom">
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-2">
+                        <label for="status" class="form-label small">Status</label>
+                        <select class="form-select form-select-sm" id="status">
+                            <option value="">All Statuses</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="topic" class="form-label small">Topic</label>
+                        <select class="form-select form-select-sm" id="topic">
+                            <option value="">All Topics</option>
+                            <option value="Feature Request">Feature Request</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Usage Guide">Usage Guide</option>
+                            <option value="Bugs and Technical Issues">Bugs and Technical Issues</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="search" class="form-label small">Search</label>
+                        <input type="text" class="form-control form-control-sm" id="search" 
+                               placeholder="Type to search tickets...">
+                    </div>
+                    <div class="col-md-2">
+                        <a href="create_ticket.php" class="btn btn-success btn-sm">
+                            <i class="fas fa-plus me-1"></i>Create Ticket
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilters()">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-muted small results-count">
+                        <?php echo count($tickets); ?> total tickets
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Table -->
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -157,8 +112,8 @@ include 'includes/header.php';
                             </a>
                         </td>
                         <td>
-                            <span class="badge bg-info" title="<?php echo htmlspecialchars($ticket['topic']); ?>">
-                                <?php echo htmlspecialchars(strlen($ticket['topic']) > 12 ? substr($ticket['topic'], 0, 12) . '...' : $ticket['topic']); ?>
+                            <span class="text-muted small" style="line-height: 1.2; display: block; max-width: 120px;">
+                                <?php echo htmlspecialchars($ticket['topic']); ?>
                             </span>
                         </td>
                         <td>

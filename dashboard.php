@@ -150,8 +150,8 @@ include 'includes/header.php';
                                 </a>
                             </td>
                             <td>
-                                <span class="badge bg-info" title="<?php echo htmlspecialchars($ticket['topic']); ?>">
-                                    <?php echo htmlspecialchars(strlen($ticket['topic']) > 10 ? substr($ticket['topic'], 0, 10) . '...' : $ticket['topic']); ?>
+                                <span class="text-muted small" style="line-height: 1.2; display: block; max-width: 110px;">
+                                    <?php echo htmlspecialchars($ticket['topic']); ?>
                                 </span>
                             </td>
                             <td>

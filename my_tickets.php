@@ -81,7 +81,9 @@ include 'includes/header.php';
                                             </a>
                                         </td>
                                         <td>
-                                            <span class="badge bg-info"><?php echo htmlspecialchars($ticket['topic']); ?></span>
+                                            <span class="text-muted small" style="line-height: 1.2; display: block;">
+                                                <?php echo htmlspecialchars($ticket['topic']); ?>
+                                            </span>
                                         </td>
                                         <td>
                                             <span class="badge priority-<?php echo strtolower($ticket['priority']); ?>">
