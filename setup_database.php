@@ -165,26 +165,4 @@ try {
 }
 ?>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    line-height: 1.6;
-    background-color: #f8f9fa;
-}
-h2, h3 {
-    color: #333;
-}
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-ul {
-    margin: 10px 0;
-}
-</style>
+<link href="css/setup-database.css" rel="stylesheet">

@@ -314,11 +314,6 @@ include 'includes/header.php';
     </div>
 </div>
 
-<style>
-@media print {
-    .btn, .card-header, .sidebar { display: none !important; }
-    .card { border: none !important; box-shadow: none !important; }
-}
-</style>
+<link href="css/reports.css" rel="stylesheet">
 
 <?php include 'includes/footer.php'; ?>

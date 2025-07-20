@@ -1,0 +1,10 @@
+/* Reports Page Print Styles */
+@media print {
+    .btn, .card-header, .sidebar { 
+        display: none !important; 
+    }
+    .card { 
+        border: none !important; 
+        box-shadow: none !important; 
+    }
+}

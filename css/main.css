@@ -1,0 +1,263 @@
+/* Main Dashboard and Application Styles */
+:root {
+    --primary-cream: #F5F0E8;
+    --secondary-cream: #F8F5F0;
+    --dark-charcoal: #2C2C2C;
+    --light-charcoal: #4A4A4A;
+    --accent-gold: #D4AF37;
+    --soft-white: #FEFEFE;
+    --border-light: #E8E0D6;
+    --shadow-subtle: rgba(44, 44, 44, 0.08);
+    --shadow-medium: rgba(44, 44, 44, 0.12);
+}
+
+body {
+    background-color: var(--secondary-cream);
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-charcoal);
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* Apply Inter font to all elements except icons */
+*, *::before, *::after {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Preserve FontAwesome icons */
+.fa, .fas, .far, .fal, .fab, 
+[class*="fa-"]::before, 
+.fa::before, .fas::before, .far::before, .fal::before, .fab::before {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands" !important;
+}
+
+.sidebar {
+    background: linear-gradient(180deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+    border-right: 1px solid var(--border-light);
+    box-shadow: 2px 0 10px var(--shadow-subtle);
+}
+
+.sidebar .nav-link {
+    color: #E5E5E5 !important;
+    padding: 8px 12px;
+    margin: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: var(--accent-gold);
+    color: var(--dark-charcoal) !important;
+    transform: translateX(4px);
+}
+
+.sidebar h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--soft-white);
+    font-size: 1rem;
+}
+
+.sidebar-header {
+    padding: 16px 12px 12px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+}
+
+.sidebar-header small {
+    color: #B8B8B8;
+    font-size: 11px;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+}
+
+.card {
+    background-color: var(--soft-white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--shadow-subtle);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 30px var(--shadow-medium);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-cream) 0%, var(--secondary-cream) 100%);
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 12px 12px 0 0 !important;
+    padding: 16px 20px;
+}
+
+.card-header h5 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: var(--dark-charcoal);
+    margin: 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--light-charcoal) 0%, var(--dark-charcoal) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-medium);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border-light);
+    color: var(--light-charcoal);
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-cream);
+    border-color: var(--accent-gold);
+    color: var(--dark-charcoal);
+}
+
+.form-control, .form-select {
+    border: 2px solid var(--border-light);
+    border-radius: 6px;
+    padding: 10px 14px;
+    background-color: var(--soft-white);
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+    background-color: var(--soft-white);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--dark-charcoal);
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    color: #721c24;
+}
+
+.status-open { color: #28a745; font-weight: 600; }
+.status-in-progress { color: #ffc107; font-weight: 600; }
+.status-closed { color: #6c757d; font-weight: 600; }
+.priority-low { color: #28a745; font-weight: 600; }
+.priority-medium { color: #ffc107; font-weight: 600; }
+.priority-high { color: #fd7e14; font-weight: 600; }
+.priority-critical { color: #dc3545; font-weight: 600; }
+
+.ticket-id {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-weight: 600;
+    background-color: var(--primary-cream);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #B8941F 100%) !important;
+    color: var(--dark-charcoal) !important;
+}
+
+.border-bottom {
+    border-bottom: 2px solid var(--border-light) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: var(--dark-charcoal);
+}
+
+.h2 {
+    color: var(--dark-charcoal);
+    font-weight: 600;
+}
+
+main {
+    background-color: var(--secondary-cream);
+    min-height: 100vh;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.form-text {
+    color: var(--light-charcoal);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--light-charcoal);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--accent-gold);
+    border-radius: 3px;
+}

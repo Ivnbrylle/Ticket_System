@@ -1,0 +1,41 @@
+/* Setup Database Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
+:root {
+    --primary-cream: #F5F0E8;
+    --secondary-cream: #F8F5F0;
+    --dark-charcoal: #2C2C2C;
+    --light-charcoal: #4A4A4A;
+    --accent-gold: #D4AF37;
+    --soft-white: #FEFEFE;
+    --border-light: #E8E0D6;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: var(--secondary-cream);
+    color: var(--dark-charcoal);
+}
+
+h2, h3 {
+    color: var(--dark-charcoal);
+    font-family: 'Playfair Display', serif;
+}
+
+a {
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--dark-charcoal);
+    text-decoration: underline;
+}
+
+ul {
+    margin: 10px 0;
+}

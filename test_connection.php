@@ -93,21 +93,4 @@ try {
 }
 ?>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    line-height: 1.6;
-}
-h2, h3 {
-    color: #333;
-}
-ul, ol {
-    margin: 10px 0;
-}
-a {
-    color: #007bff;
-}
-</style>
+<link href="css/test-connection.css" rel="stylesheet">
