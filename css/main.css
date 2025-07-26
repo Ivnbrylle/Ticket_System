@@ -84,13 +84,6 @@ body {
     background-color: var(--soft-white);
     border: 1px solid var(--border-light);
     border-radius: 12px;
-    box-shadow: 0 4px 20px var(--shadow-subtle);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    box-shadow: 0 8px 30px var(--shadow-medium);
-    transform: translateY(-2px);
 }
 
 .card-header {
@@ -105,10 +98,6 @@ body {
     font-weight: 600;
     color: var(--dark-charcoal);
     margin: 0;
-}
-
-.card-body {
-    padding: 20px;
 }
 
 .btn-primary {

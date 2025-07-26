@@ -87,87 +87,23 @@ include 'includes/header.php';
     <?php endif; ?>
 
     <div class="row">
-        <!-- Add Employee Form -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Add New Employee</h5>
-                </div>
-                        <div class="card-body">
-                            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Specializations <span class="text-danger">*</span></label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Feature Request" id="spec1">
-                                        <label class="form-check-label" for="spec1">Feature Request</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Sales" id="spec2">
-                                        <label class="form-check-label" for="spec2">Sales</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Usage Guide" id="spec3">
-                                        <label class="form-check-label" for="spec3">Usage Guide</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="Bugs and Technical Issues" id="spec4">
-                                        <label class="form-check-label" for="spec4">Bugs and Technical Issues</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="specialization[]" value="General" id="spec5">
-                                        <label class="form-check-label" for="spec5">General</label>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
-                                        <label class="form-check-label" for="is_admin">
-                                            Administrator
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <button type="submit" name="add_employee" class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i>Add Employee
-                                </button>
-                            </form>
-                        </div>
-            </div>
-        </div>
-
-        <!-- Employee List -->
-        <div class="col-md-8">
+        <!-- Employee List - Full Width -->
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Current Employees</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Specializations</th>
-                                    <th>Role</th>
-                                    <th>Active Tickets</th>
-                                    <th>Actions</th>
+                                    <th style="white-space: nowrap;">Name</th>
+                                    <th style="white-space: nowrap;">Email</th>
+                                    <th style="white-space: nowrap;">Specializations</th>
+                                    <th style="white-space: nowrap;">Role</th>
+                                    <th style="white-space: nowrap;">Active Tickets</th>
+                                    <th style="white-space: nowrap;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,15 +115,15 @@ include 'includes/header.php';
                                         <?php 
                                         $specs = explode(',', $employee['specialization']);
                                         foreach ($specs as $spec) {
-                                            echo '<span class="badge bg-secondary me-1">' . htmlspecialchars(trim($spec)) . '</span>';
+                                            echo '<span class="badge bg-light text-dark border me-1 mb-1" style="font-size: 0.6rem;">' . htmlspecialchars(trim($spec)) . '</span>';
                                         }
                                         ?>
                                     </td>
                                     <td>
                                         <?php if ($employee['is_admin']): ?>
-                                            <span class="badge bg-warning">Admin</span>
+                                            <span class="text-warning fw-bold">Admin</span>
                                         <?php else: ?>
-                                            <span class="badge bg-info">User</span>
+                                            <span class="text-info fw-bold">User</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -213,6 +149,103 @@ include 'includes/header.php';
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Employee Form - Below the table -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Add New Employee</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Role</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                                        <label class="form-check-label" for="is_admin">
+                                            Administrator
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Specializations <span class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Feature Request" id="spec1">
+                                                <label class="form-check-label" for="spec1">Feature Request</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Sales" id="spec2">
+                                                <label class="form-check-label" for="spec2">Sales</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Usage Guide" id="spec3">
+                                                <label class="form-check-label" for="spec3">Usage Guide</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialization[]" value="Bugs and Technical Issues" id="spec4">
+                                                <label class="form-check-label" for="spec4">Bugs and Technical Issues</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialization[]" value="General" id="spec5">
+                                                <label class="form-check-label" for="spec5">General</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" name="add_employee" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Add Employee
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
